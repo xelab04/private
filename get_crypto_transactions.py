@@ -1,5 +1,4 @@
 import httplib2
-from bs4 import BeautifulSoup, SoupStrainer
 
 def i_to_j(string):
     accepted = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -18,22 +17,23 @@ def i_to_j(string):
                             return new_string[j+4:k]
 
 #<span class="hash-tag text-truncate" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="0x908127a767e76788dc1f582d8928675eff244434">0x908127a767e76788dc1f582d8928675eff244434</span>
+def main()
+    http = httplib2.Http()
+    status,response = http.request("https://etherscan.io/address/0x908127A767E76788Dc1F582D8928675efF244434")
 
-http = httplib2.Http()
-status,response = http.request("https://etherscan.io/address/0x908127A767E76788Dc1F582D8928675efF244434")
 
+    balance = i_to_j(str(response).strip(" "))
+    print("")
+    usual_file = "/usual.txt"
+    with open(usual_file,"r") as file:
+        lines = file.readlines()
+        old_balance = lines[0].strip("\n")
 
-balance = i_to_j(str(response).strip(" "))
-print("")
-usual_file = "/home/alex/Desktop/usual.txt"
-with open(usual_file,"r") as file:
-    lines = file.readlines()
-    old_balance = lines[0].strip("\n")
+        print(old_balance,balance)
+        if balance == old_balance:
+            return False
 
-    print(old_balance,balance)
-    if balance == old_balance:
-        print("SAME")
-
-if old_balance != balance:
-    with open(usual_file,"w") as file:
-        file.writelines([balance])
+    if old_balance != balance:
+        with open(usual_file,"w") as file:
+            file.writelines([balance])
+            return True
